@@ -50,8 +50,7 @@ html{
 .comment .info a{	/* User name */
   display: block;
   text-decoration: none;
-  color: #656c71;
-  font-weight: bold;
+  /* change text color and font weight */
   text-overflow: ellipsis;
   overflow: hidden;
   white-space: nowrap;
@@ -107,7 +106,7 @@ html{
 }
 
 .comment.author-comment p{
-  background-color:  #e2f8ff;
+  /* change background color to light blue */
   order: 1;
 }
 

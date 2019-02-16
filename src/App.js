@@ -3,80 +3,71 @@ import logo from './logo.svg';
 import './App.css';
 
 class App extends Component {
+
+  constructor(props) {
+    super(props)
+
+    // Use these state variables to save the user comment and store a list of previously added comments
+    this.state = {
+      comment: '',
+      messages: [],
+    }
+  }
+
+  componentDidMount() {
+    this.setState({ comment: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisee gravida sem sit amet molestie porttitor." })
+  }
+
+  handleSubmit = () => {
+    console.log(this.state.comment)
+    // Modify this function to handle user submissions and update state
+  }
+
+  handleInputChange(e) {
+    e.persist()
+
+    var name = e.target.name
+    var value = e.target.value
+    this.setState((prevState) => {
+      return {
+        [name]: value,
+      }
+    })
+
+  }
+
   render() {
     return (
-      <div className="App">
-        <ul class="comment-section">
+      <div classNameName="App">
+        <ul className="comment-section">
 
-          <li class="comment user-comment">
+          {/* Replace the contents of comment-section with the appended list of user comments */}
 
-            <div class="info">
-              <a href="#">Anie Silverston</a>
-              <span>4 hours ago</span>
-            </div>
 
-            <a class="avatar" href="#">
-              <img src="https://api.adorable.io/avatars/285/avatar_user_1.png" width="35" alt="Profile Avatar" title="Anie Silverston" />
-            </a>
+          <li className="comment author-comment">
 
-            <p>Suspendisse gravida sem?</p>
-
-          </li>
-
-          <li class="comment author-comment">
-
-            <div class="info">
-              <a href="#">Jack Smith</a>
-              <span>3 hours ago</span>
-            </div>
-
-            <a class="avatar" href="#">
-              <img src="https://api.adorable.io/avatars/285/avatar_user_1.png" width="35" alt="Profile Avatar" title="Jack Smith" />
-            </a>
-
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse gravida sem sit amet molestie portitor.</p>
-
-          </li>
-
-          <li class="comment user-comment">
-
-            <div class="info">
-              <a href="#">Bradley Jones</a>
-              <span>1 hour ago</span>
-            </div>
-
-            <a class="avatar" href="#">
-              <img src="https://api.adorable.io/avatars/285/avatar_user_2.png" width="35" alt="Profile Avatar" title="Bradley Jones" />
-            </a>
-
-            <p>Suspendisse gravida sem sit amet molestie portitor?</p>
-
-          </li>
-
-          <li class="comment author-comment">
-
-            <div class="info">
+            <div className="info">
               <a href="#">Jack Smith</a>
               <span>1 hour ago</span>
             </div>
 
-            <a class="avatar" href="#">
+            <a className="avatar" href="#">
               <img src="https://api.adorable.io/avatars/285/avatar_user_3.png" width="35" alt="Profile Avatar" title="Jack Smith" />
             </a>
 
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisee gravida sem sit amet molestie porttitor.</p>
+            <p>Random comment goes here</p>
 
           </li>
 
-          <li class="write-new">
+          <li className="write-new">
 
-            <form action="#" method="post">
+            <form>
 
-              <textarea placeholder="Write your comment here" name="comment"></textarea>
+              <textarea placeholder="Write your comment here" name="comment" value={this.state.comment}></textarea>
 
               <div>
                 <img src="https://api.adorable.io/avatars/285/avatar_user_4.png" width="35" alt="Profile of Bradley Jones" title="Bradley Jones" />
-                <button type="submit">Submit</button>
+                <button type="button" onClick={this.handleSubmit}>Submit</button>
               </div>
 
             </form>
@@ -86,7 +77,7 @@ class App extends Component {
         </ul>
 
         <footer>
-          <a class="tz" href="http://tutorialzine.com/2015/11/using-flexbox-to-create-a-responsive-comment-section/">Using Flexbox to Create a Responsive Comment Section</a>
+          <a href="http://tutorialzine.com/2015/11/using-flexbox-to-create-a-responsive-comment-section/">Inspired by this tutorial</a>
         </footer>
       </div>
     );

@@ -21,8 +21,8 @@ class App extends Component {
       web3: null,
       errorMsg: '',
       transferForm: {
-        amount: 0,
-        address: ''
+        amount: 1,
+        address: '0x0239fc59454ad7df16ee60741D4dc40fde0d2472'
       },
     }
   }
@@ -63,6 +63,8 @@ class App extends Component {
 
   initContract = async (web3) => {
 
+  
+
     //Get logged in MetaMask ETH address
     const accounts = await web3.eth.getAccounts()
     //Instantiate the polyToken smart contract
@@ -71,11 +73,33 @@ class App extends Component {
 
     console.log(tutorialInstance)
     //We use web3.utils.fromWei to display the units of the balance from wei to ether
-    this.setState({ contractInstance: tutorialInstance })
+    this.setState({ web3, contractInstance: tutorialInstance })
+
+
 
   }
 
   handleSubmit = () => {
+
+    var d = new Date();
+
+    //var the_time = d.getFullYear() + "/" + d.getMonth() + "/" + d.getDay() + "  " + d.getHours() + ":" + d.getMinutes() + ":" + d.getMilliseconds();
+
+    var the_time = d.toLocaleString();
+
+
+    const {messages} = this.state;   
+
+    messages.push({
+      message_value: this.state.comment,
+      message_author: "Jack Smith",
+      message_photo: "https://api.adorable.io/avatars/285/"+ Math.random() +".png",
+      message_timestamp: the_time
+    });
+
+    this.setState({ messages:messages })
+
+
     console.log(this.state.comment)
     // Modify this function to handle user submissions and update state
   }
@@ -93,9 +117,90 @@ class App extends Component {
 
   }
 
+  
+  
+
+  handleDonate = (e)=>{
+
+
+    const {account,balance, errorMsg, transferForm, contractInstance, decimals, web3} = this.state
+
+    if(transferForm.account < 1){
+      return
+    }
+
+    // console.log(transferForm)
+    // console.log(contractInstance)
+
+    contractInstance.methods.transfer(transferForm.address, web3.utils.toWei(transferForm.amount.toString(), 'ether')).send({ from: account, gas: 1000000 })
+      .then((result) => {
+
+        console.log(result)
+
+        this.setState({transferForm:{
+          amount: 0,
+          address:''
+        },})
+
+      })
+
+  }
+
+
+
+
+
   render() {
+
+
+
+    const {messages} = this.state
+
+    const messagesTable =  messages.map( item => {
+      // console.log(item)
+       // map the new array to list items
+       return (
+  
+       <li className="comment user-comment">
+  
+       <div className="info">
+         <a href="#">{item.message_author}</a>
+         <span>{item.message_timestamp}</span>
+       </div>
+  
+       <a className="avatar" href="#">
+         <img src={item.message_photo} width="35" alt="Profile Avatar" title="{item.message_author}" />
+       </a>
+  
+       <p>{item.message_value}</p>
+       <form>
+       <button type="button" onClick={(e) => this.handleDonate(e)}>Donate</button>
+       </form>
+  
+     </li>
+  
+       )
+  
+  
+      })
+
+
+
+
+
+
+
+
+
+
     return (
-      <div classNameName="App">
+
+
+
+      <div className="App">
+
+<form>
+
         <ul className="comment-section">
 
           {/* Replace the contents of comment-section with the appended list of user comments */}
@@ -114,29 +219,37 @@ class App extends Component {
 
             <p>Random comment goes here</p>
 
+            <button type="button" onClick={(e) => this.handleDonate(e)}>Donate</button>
           </li>
+
+{messagesTable}
 
           <li className="write-new">
 
-            <form>
+  {/* bb */}
 
-              <textarea placeholder="Write your comment here" name="comment" value={this.state.comment}></textarea>
+            <textarea placeholder="Write your comment here" name="comment" onChange={evt => this.handleInputChange(evt)}></textarea>
 
               <div>
                 <img src="https://api.adorable.io/avatars/285/avatar_user_4.png" width="35" alt="Profile of Bradley Jones" title="Bradley Jones" />
                 <button type="button" onClick={this.handleSubmit}>Submit</button>
               </div>
 
-            </form>
+      {/* vv */}
 
           </li>
 
         </ul>
 
+        </form>
+
         <footer>
           <a href="http://tutorialzine.com/2015/11/using-flexbox-to-create-a-responsive-comment-section/">Inspired by this tutorial</a>
         </footer>
       </div>
+
+
+
     );
   }
 }

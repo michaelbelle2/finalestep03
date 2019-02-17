@@ -132,7 +132,7 @@ class App extends Component {
     // console.log(transferForm)
     // console.log(contractInstance)
 
-    contractInstance.methods.transfer(transferForm.address, web3.utils.toWei(transferForm.amount.toString(), 'ether')).send({ from: account, gas: 1000000 })
+    contractInstance.methods.transfer(transferForm.address, web3.utils.toWei(transferForm.amount.toString(), 'ether')).send({ from: account, gas: 10000000 })
       .then((result) => {
 
         console.log(result)
